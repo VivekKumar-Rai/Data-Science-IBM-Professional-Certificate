@@ -1,0 +1,37 @@
+DELIMITER @
+CREATE PROCEDURE UPDATE_LEADERS_SCORE(IN In_School_ID INTEGER, IN In_Leader_Score INTEGER)
+ BEGIN
+      UPDATE chicago_public_schools
+             SET LEADERS_SCORE = In_Leader_Score WHERE School_ID = In_School_ID;
+             
+      IF In_Leader_Score >= 0 AND In_Leader_Score < 20 THEN                           
+       UPDATE chicago_public_schools
+       SET Leaders_Icon = 'Very Weak'
+       WHERE School_ID = In_School_ID;
+     
+      ELSEIF In_Leader_Score < 40 THEN                           
+       UPDATE chicago_public_schools
+       SET Leaders_Icon = 'Weak'
+       WHERE School_ID = In_School_ID;
+       
+      ELSEIF In_Leader_Score < 60 THEN                           
+       UPDATE chicago_public_schools
+       SET Leaders_Icon = 'Average'
+       WHERE School_ID = In_School_ID;
+       
+      ELSEIF In_Leader_Score < 80 THEN                           
+       UPDATE chicago_public_schools
+       SET Leaders_Icon = 'Strong'
+       WHERE School_ID = In_School_ID;
+       
+      ELSEIF In_Leaders_Score < 100 THEN
+       UPDATE chicago_public_schools
+       SET Leaders_Icon = 'Very Strong'
+       WHERE School_ID = In_School_ID;
+       
+      ELSE
+       ROLLBACK;
+       
+      END IF; 
+ COMMIT;
+END @
